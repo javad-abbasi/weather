@@ -4,25 +4,37 @@
  *
  * @format
  */
-
-import { NewAppScreen } from '@react-native/new-app-screen';
-import { StatusBar, StyleSheet, useColorScheme, View } from 'react-native';
-
-function App() {
-  const isDarkMode = useColorScheme() === 'dark';
-
+import React, { useEffect } from 'react';
+import Routes from './src/navigations/Routes';
+import { GestureHandlerRootView } from 'react-native-gesture-handler';
+import { Provider, useDispatch } from 'react-redux';
+import { store } from './src/redux/store';
+import { MMKV } from 'react-native-mmkv';
+import { saveUserData } from './src/redux/reducers/authSlice';
+const { dispatch } = store;
+const App = () => {
+  const storage = new MMKV();
+  const getUserDataFromStore = () => {
+    const token = storage.getString('token');
+    if (token) {
+      dispatch(
+        saveUserData({
+          userData: { Name: 'Javad', Gender: 'Male', Country: 'Iran' },
+          isLogin: true,
+        }),
+      );
+    }
+  };
+  useEffect(() => {
+    getUserDataFromStore();
+  }, []);
   return (
-    <View style={styles.container}>
-      <StatusBar barStyle={isDarkMode ? 'light-content' : 'dark-content'} />
-      <NewAppScreen templateFileName="App.tsx" />
-    </View>
+    <Provider store={store}>
+      <GestureHandlerRootView>
+        <Routes />
+      </GestureHandlerRootView>
+    </Provider>
   );
-}
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-  },
-});
+};
 
 export default App;
