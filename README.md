@@ -40,18 +40,7 @@ Users can:
 
 ---
 
-## 📸 Screenshots
 
-> _(Add screenshots here after running the app)_
-
-- Splash Screen
-- Home Screen (Hourly + Weekly)
-- See More Details
-- Search Screen
-- Map Screen
-- Settings Screen
-
----
 
 ## 🚀 Tech Stack
 
